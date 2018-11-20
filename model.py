@@ -281,8 +281,9 @@ def model(img,detectAngle=False,config={},ifIm=True,leftAdjust=False,rightAdjust
     @@param:adjust 调整文字识别结果
     @@param:detectAngle,是否检测文字朝向
     """
-    angle,degree,img = eval_angle(img,detectAngle=detectAngle,ifadjustDegree=ifadjustDegree)
-    
+    # angle,degree,img = eval_angle(img,detectAngle=detectAngle,ifadjustDegree=ifadjustDegree)
+    angle,degree,img = 0,0,img
+
     img =letterbox_image(img, IMGSIZE)
     
     config['img'] = img
