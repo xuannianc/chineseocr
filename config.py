@@ -8,7 +8,8 @@ yoloData = os.path.join(pwd,"models","text.data")
 ##文字方向检测
 AngleModelPb = os.path.join(pwd,"models","Angle-model.pb")
 AngleModelPbtxt = os.path.join(pwd,"models","Angle-model.pbtxt")
-IMGSIZE = (1024,1024)## yolo3 输入图像尺寸
+# IMGSIZE = (1024,1024)## yolo3 输入图像尺寸
+IMGSIZE = (608,608)## yolo3 输入图像尺寸
 ##是否启用LSTM crnn模型
 DETECTANGLE=True##是否进行文字方向检测
 LSTMFLAG = True##OCR模型是否调用LSTM层

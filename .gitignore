@@ -13,3 +13,4 @@ buil
 .ipynb_checkpoints
 __pycache__
 darknet 
+.idea/

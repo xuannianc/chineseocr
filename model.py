@@ -287,7 +287,15 @@ def model(img,detectAngle=False,config={},ifIm=True,leftAdjust=False,rightAdjust
     
     config['img'] = img
     text_recs,tmp = text_detect(**config)
-    
+    for text_rec in text_recs:
+        points_around_center = np.array([[text_rec[0], text_rec[1]],
+                                         [text_rec[2], text_rec[3]],
+                                         [text_rec[4], text_rec[5]],
+                                         [text_rec[6], text_rec[7]]]).astype('int')
+        image = np.array(img)
+        cv2.polylines(image, [points_around_center.reshape(-1, 1, 2)], True, (0,255,0), 2)
+        cv2.imshow('image', image)
+        cv2.waitKey(0)
     newBox = sort_box(text_recs)
     result = crnnRec(np.array(img),newBox,ifIm,leftAdjust,rightAdjust,alph)
     return img,result,angle
