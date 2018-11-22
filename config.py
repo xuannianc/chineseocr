@@ -1,7 +1,8 @@
 import os
 opencvFlag = True##opencvFlag==True 启用opencv dnn 反之 darkent 
 darknetRoot = os.path.join(os.path.curdir,"darknet")## yolo 安装目录
-pwd = os.getcwd()
+# pwd = os.getcwd()
+pwd = '/home/adam/workspace/github/chineseocr'
 yoloCfg = os.path.join(pwd,"models","text.cfg")
 yoloWeights = os.path.join(pwd,"models","text.weights")
 yoloData = os.path.join(pwd,"models","text.data")
