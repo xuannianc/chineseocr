@@ -20,6 +20,19 @@ from glob import glob
 from crnn.crnn import crnnOcr as crnnOcr
 
 
+def get_image_with_margin(image, location, left_margin=5, right_margin=5, up_margin=5, down_margin=5):
+    image = image[location[1]:location[3], location[0]:location[2]]
+    # 上方插入空白
+    image = np.insert(image, [0] * up_margin, values=255, axis=0)
+    # 下方插入空白
+    image = np.insert(image, [image.shape[0]] * down_margin, values=255, axis=0)
+    # 左方插入空白
+    image = np.insert(image, [0] * left_margin, values=255, axis=1)
+    # 右方插入空白
+    image = np.insert(image, [image.shape[1]] * right_margin, values=255, axis=1)
+    return image
+
+
 def text_detect(img,
                 MAX_HORIZONTAL_GAP=30,
                 MIN_V_OVERLAPS=0.6,
@@ -300,20 +313,28 @@ def model(img, detectAngle=False, config={}, ifIm=True, leftAdjust=False, rightA
 
     config['img'] = img
     text_recs, tmp = text_detect(**config)
+    # image = np.array(img.copy())
     # for text_rec in text_recs:
     #     points_around_center = np.array([[text_rec[0], text_rec[1]],
     #                                      [text_rec[2], text_rec[3]],
     #                                      [text_rec[4], text_rec[5]],
     #                                      [text_rec[6], text_rec[7]]]).astype('int')
-    #     image = np.array(img)
-    #     cv2.polylines(image, [points_around_center.reshape(-1, 1, 2)], True, (0, 255, 0), 2)
-    #     cv2.imshow('image', image)
-    #     cv2.waitKey(0)
+    #     cv2.polylines(image, [points_around_center.reshape(-1, 1, 2)], True, (0, 255, 0), 1)
+    # cv2.imshow('image', image)
+    # cv2.waitKey(0)
     if num_rois:
         rois = extract_some_boxes(text_recs, num_filtered, num_rois)
     else:
         rois = sort_box(text_recs)
-
+    # for roi in rois:
+    #     points_around_center = np.array([[roi[0], roi[1]],
+    #                                      [roi[2], roi[3]],
+    #                                      [roi[4], roi[5]],
+    #                                      [roi[6], roi[7]]]).astype('int')
+    #     image = np.array(img)
+    #     cv2.polylines(image, [points_around_center.reshape(-1, 1, 2)], True, (0, 255, 0), 1)
+    #     cv2.imshow('image', image)
+    #     cv2.waitKey(0)
     result = crnnRec(np.array(img), rois, ifIm, leftAdjust, rightAdjust, alph)
     return img, result, angle
 
